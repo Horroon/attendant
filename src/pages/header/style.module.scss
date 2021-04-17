@@ -1,0 +1,10 @@
+@import '../../constants/style.module.scss';
+.header-container{
+    background-color: $mainColor;
+    a{
+        font-size: 20px;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+}

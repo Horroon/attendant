@@ -1,10 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import { Header } from "./pages/header/index";
+import { Provider } from "react-redux";
+import { store } from "./models/index";
+import MainRoutes from "./pages/main";
 
 function App() {
   return (
     <div className="App">
-      <p>You will see two roles here (user,admin)</p>
+      <Provider store={store}>
+        <Header />
+        <MainRoutes />
+      </Provider>
     </div>
   );
 }
