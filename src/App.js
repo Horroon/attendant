@@ -1,7 +1,7 @@
 import { Header } from "./pages/header/index";
 import { Provider } from "react-redux";
 import { store } from "./models/index";
-import MainRoutes from "./router/router";
+import MainRoutes from "./pages/main";
 
 function App() {
   return (

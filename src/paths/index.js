@@ -1,6 +1,6 @@
 export const MainPaths = {
     appPath:'/attendant',
-    login:'attendant/login'
+    login:'/attendant/login'
 }
 
 export const subpaths = {
