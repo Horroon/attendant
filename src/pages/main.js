@@ -5,12 +5,11 @@ import { UserScreen } from "./user-screens/index";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainPaths, subpaths } from "../paths";
 import styles from './style.module.scss';
-import {Login} from './login/index';
+import Login from './login/index';
 
 const MainScreen = (props) => {
   const { LoginInfo } = props;
-  const role = "user";
-  debugger;
+  const {role} = LoginInfo
   return (
     <div className={styles.mainbody}>
       <Router>

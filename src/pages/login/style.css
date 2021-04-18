@@ -3,7 +3,7 @@
 }
 .user_card {
     height: 400px;
-    width: 350px;
+    width: 450px;
     margin-top: auto;
     margin-bottom: auto;
     background: #6ccca1;;
@@ -59,8 +59,12 @@
 .role-btn{
     color: #fff;
     text-transform: capitalize;
+    background: transparent;
+    outline: none;
+    border: none;
 }
 
-.role-btn:hover{
+.role-btn:focus{
     color: #fff;
+    box-shadow: none;
 }

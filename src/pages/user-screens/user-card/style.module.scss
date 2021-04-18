@@ -1,0 +1,30 @@
+.cardcontainer{
+    height: 80vh;
+    display: grid;
+    border-radius: 5px;
+    .card{
+        box-shadow: 0px 0px 9px 0px;
+        .cardheader{
+            border: none;
+        }
+        .personame{
+            text-align: center;
+        }
+        .pinout{
+            padding: 10px;
+            div{
+                margin-top: 10px;
+            }
+        }
+        .leavecontainer{
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            div {
+                margin-top: 10px;
+                width: 40%;
+            }
+        }
+    }
+
+}

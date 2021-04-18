@@ -4,6 +4,7 @@ export const LoginInfo = {
         role:User.roles.user
     },
     reducers:{
-        updateinfo:(state,payload)=>({...state, ...payload})
+        updateinfo:(state,payload)=>({...state, ...payload}),
+        updaterole:(state,payload)=>({...state, role: payload})
     }
 }

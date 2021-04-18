@@ -1,0 +1,28 @@
+.avart-imge-container{
+    width: 100%;
+    height: auto;
+}
+
+.initial-container{
+    width: 100%;
+    height: auto;
+
+}
+
+.initialclass{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    background: #6ccca1;
+    color: #fff;
+    border-radius: 50%;
+    margin: auto;
+    h6{
+        font-size: 27px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}

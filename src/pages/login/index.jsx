@@ -1,9 +1,16 @@
 import React from "react";
 import "./style.css";
 import logo from '../../assets/logo192.jpg'
+import { connect } from "react-redux";
+import { store } from "../../models";
+import {User} from '../../constants/properties'
 
-export const Login = ({}) => {
-  debugger;
+const Login = (props) => {
+  const {dispatch, LoginInfo:{role}} = props;
+  const newRole = role === User.roles.user ? User.roles.admin : User.roles.user
+ const changeRole = ()=>{
+    store.dispatch.LoginInfo.updaterole(newRole)
+ }
   return (
     <div className="container h-100 login-card-body">
       <div className="d-flex justify-content-center h-100">
@@ -20,7 +27,10 @@ export const Login = ({}) => {
           <div className="d-flex justify-content-center form_container">
             <form>
               <div className="d-flex justify-content-center">
-                <h4 className="role">Punch Login</h4>
+                <h4 className="role">Punch Form</h4>
+              </div>
+              <div className="d-flex justify-content-center">
+                <h6 className="role">{role} login</h6>
               </div>
               <div className="input-group mb-3">
                 <div className="input-group-append">
@@ -30,7 +40,7 @@ export const Login = ({}) => {
                 </div>
                 <input
                   type="text"
-                  name=""
+                  name="empId"
                   className="form-control input_user"
                   value=""
                   placeholder="Employee ID"
@@ -44,7 +54,7 @@ export const Login = ({}) => {
                 </div>
                 <input
                   type="password"
-                  name=""
+                  name="pcode"
                   className="form-control input_pass"
                   value=""
                   placeholder="PIN Code"
@@ -54,7 +64,7 @@ export const Login = ({}) => {
                 <button
                   type="button"
                   name="button"
-                  className="btn btn-success btn-sm btn-block"
+                  className="btn btn-success btn-md btn-block"
                 >
                   Login
                 </button>
@@ -64,9 +74,9 @@ export const Login = ({}) => {
 
           <div className="mt-4">
             <div className="d-flex justify-content-center links">
-              <a href="#" className="ml-2 role-btn">
-                login as admin
-              </a>
+              <button className="btn btn-sm btn-outline ml-2 role-btn" onClick={changeRole} >
+                login as {newRole}
+              </button>
             </div>
           </div>
         </div>
@@ -74,3 +84,6 @@ export const Login = ({}) => {
     </div>
   );
 };
+
+const mapStateToProps = (store=>store);
+export default connect(mapStateToProps)(Login)
