@@ -24,10 +24,15 @@
         }
         .adminroles{
             color: $mainColor;
+            border-bottom: 1px dotted $mainColor;
             .roleone{
                 .today { padding: 10px;
-                        font-size: 17px;
-                        font-weight: bold;
+                        i{
+                            font-size: 15px;
+                        }
+                        span{
+                            font-size: 14px;
+                        }
                     }
                 .nestedrole{
                     ul{
@@ -46,6 +51,30 @@
                         }
                     }
                 }
+            }
+            .roletwo{
+                .ostate{
+                        padding: 10px;
+                        font-size: 17px;
+                        font-weight: bold;
+                        cursor: pointer;
+                }
+            }
+        }
+        [class~='float']{
+            position:fixed;
+            width:60px;
+            height:60px;
+            bottom:24px;
+            left:84px;
+            background-color:#0C9;
+            color:#FFF;
+            border-radius:50px;
+            text-align:center;
+            box-shadow: 2px 2px 3px #999;
+            i{
+                font-size: 28px;
+                padding: 17px;
             }
         }
       }
