@@ -1,0 +1,51 @@
+    @import '../../../constants/style.module.scss';
+    .sidenav {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        background-color: #69b5932e;
+        overflow-x: hidden;
+        padding: 9px;
+        padding-top: 20px;
+        .info{
+            border-bottom: 1px dotted #6ccca1;;
+            .imgcontainer{
+                padding: 10px;
+            }
+            .namecontainer{
+                padding: 10px;
+                h4{
+                    text-align: center;
+                    color: $mainColor;
+                }
+            }
+        }
+        .adminroles{
+            color: $mainColor;
+            .roleone{
+                .today { padding: 10px;
+                        font-size: 17px;
+                        font-weight: bold;
+                    }
+                .nestedrole{
+                    ul{
+                        list-style: none;
+                        li{
+                            padding: 10px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            font-size: 12px;
+                            font-weight: bold;
+
+                            &:hover{
+                                background: $mainColor;
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+      }

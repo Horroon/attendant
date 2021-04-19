@@ -1,7 +1,7 @@
 import {User} from '../constants/properties';
 export const LoginInfo = {
     state:{
-        role:User.roles.user
+        role:User.roles.admin
     },
     reducers:{
         updateinfo:(state,payload)=>({...state, ...payload}),
