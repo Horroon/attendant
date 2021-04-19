@@ -1,0 +1,25 @@
+.userdrawer{
+    .dialog{
+        min-width: 80%;
+        .mcontent{
+            .mheader{
+                .mtitle{
+                    text-transform: uppercase;
+                }
+            }
+            .mbody{
+                .searchcontainer{
+                    width: 50%;
+                    display: flex;
+                    .searchPickerContainer{
+                        min-width: 20%;
+                    }
+                    .displaydates{
+                        padding: 3px;
+                        padding-left: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

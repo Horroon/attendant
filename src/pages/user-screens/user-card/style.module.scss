@@ -6,6 +6,21 @@
         box-shadow: 0px 0px 9px 0px;
         .cardheader{
             border: none;
+            background: transparent;
+        }
+        .pinfo{
+           .cardtable{
+               tr{
+                th{
+                    border-top: none;
+                }
+                td{
+                    text-align: end;
+                    border-top: none;
+                }
+               }
+               
+           }
         }
         .personame{
             text-align: center;
@@ -22,7 +37,7 @@
             justify-content: space-between;
             div {
                 margin-top: 10px;
-                width: 40%;
+                min-width: 40%;
             }
         }
     }
