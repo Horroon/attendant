@@ -13,7 +13,7 @@ export const UserCard = () => {
         </div>
         <div className="card-body">
           <div className={styles.pinfo}>
-            <table className={classes('table',styles.cardtable)}>
+            <table className={classes("table", styles.cardtable)}>
               <tr>
                 <th>Emp Name: </th>
                 <td>Haroon Rasheed</td>
@@ -33,25 +33,31 @@ export const UserCard = () => {
             </table>
           </div>
           <div className={styles.pinout}>
-            <div>
-              <button className="btn btn-success btn-md">
-                Punch In / Out
-              </button>
+            <div className={styles.pincontainer}>
+              <div>
+                <button className="btn btn-success btn-md">
+                  Punch In / Out
+                </button>
+              </div>
+              <div>
+                <button
+                  className="btn btn-primary btn-md"
+                  data-target="#exampleModalLong"
+                  data-toggle="modal"
+                >
+                  View Previous Records
+                </button>
+              </div>
             </div>
           </div>
           <div className={styles.leavecontainer}>
-            <div>
+            {/* <div>
               <button
                 className="btn btn-primary btn-block btn-md"
                 data-target="#exampleModalLong"
                 data-toggle="modal"
               >
                 View Previous Records
-              </button>
-            </div>
-            {/* <div>
-              <button className="btn btn-secondary btn-block btn-md">
-                Leave
               </button>
             </div> */}
           </div>

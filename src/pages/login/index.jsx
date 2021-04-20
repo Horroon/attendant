@@ -1,21 +1,32 @@
 import React from "react";
 import "./style.css";
-import logo from '../../assets/logo192.jpg'
+import logo from "../../assets/logo192.jpg";
 import { connect } from "react-redux";
 import { store } from "../../models";
-import {User} from '../../constants/properties'
+import { User } from "../../constants/properties";
 import { useToasts } from "react-toast-notifications";
+import { useHistory } from "react-router-dom";
+import { subpaths } from "../../paths";
 
 const Login = (props) => {
-  const {addToast} = useToasts()
-  const {dispatch, LoginInfo:{role}} = props;
-  const newRole = role === User.roles.user ? User.roles.admin : User.roles.user
- const changeRole = ()=>{
-    store.dispatch.LoginInfo.updaterole(newRole)
- }
- const login = ()=>{
-  addToast('You will see login soon ', {appearance:'info', autoDismiss:true})
- }
+  const { addToast } = useToasts();
+  const {
+    dispatch,
+    LoginInfo: { role },
+  } = props;
+  const History = useHistory();
+  const newRole = role === User.roles.user ? User.roles.admin : User.roles.user;
+  const changeRole = () => {
+    store.dispatch.LoginInfo.updaterole(newRole);
+  };
+  const login = () => {
+    role === User.roles.admin && History.push(subpaths.adminpaths.main);
+    role === User.roles.user && History.push(subpaths.userpaths.main);
+    addToast("You will see login soon ", {
+      appearance: "info",
+      autoDismiss: true,
+    });
+  };
 
   return (
     <div className="container h-100 login-card-body">
@@ -23,11 +34,7 @@ const Login = (props) => {
         <div className="user_card">
           <div className="d-flex justify-content-center">
             <div className="brand_logo_container">
-              <img
-                src={logo}
-                className="brand_logo"
-                alt="Logo"
-              />
+              <img src={logo} className="brand_logo" alt="Logo" />
             </div>
           </div>
           <div className="d-flex justify-content-center form_container">
@@ -81,7 +88,10 @@ const Login = (props) => {
 
           <div className="mt-4">
             <div className="d-flex justify-content-center links">
-              <button className="btn btn-sm btn-outline ml-2 role-btn" onClick={changeRole} >
+              <button
+                className="btn btn-sm btn-outline ml-2 role-btn"
+                onClick={changeRole}
+              >
                 login as {newRole}
               </button>
             </div>
@@ -92,5 +102,5 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = (store=>store);
-export default connect(mapStateToProps)(Login)
+const mapStateToProps = (store) => store;
+export default connect(mapStateToProps)(Login);

@@ -27,6 +27,10 @@
         }
         .pinout{
             padding: 10px;
+            .pincontainer{
+                display: flex;
+                justify-content: space-between;
+            }
             div{
                 margin-top: 10px;
             }
