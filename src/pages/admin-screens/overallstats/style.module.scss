@@ -1,0 +1,41 @@
+.statscontainer{
+    .searchcontainer{
+        width: 50%;
+        margin: auto;
+        padding: 43px;
+    }
+    .body{
+        .listcontainer{
+            width: 80%;
+            margin: auto;
+            .actionscontainer{
+                display: flex;
+                justify-content: space-between;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                .periods{
+                    
+                    select{
+                        background: transparent;
+                        padding: 4px;
+                        border-radius: 4px;
+                        outline: none;
+                        margin-left: 20px;
+                    }
+                }
+                .sortedcontainer{
+                    text-align: right;
+                    padding-right: 0px;
+                    select{
+                        padding: 4px;
+                        border-radius: 4px;
+                        background: transparent;
+                        outline: none;
+                        cursor: pointer;
+                    }
+                }
+            }
+            
+        }
+    }
+}

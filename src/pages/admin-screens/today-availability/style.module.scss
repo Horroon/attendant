@@ -1,9 +1,23 @@
+@import '../../../constants/style.module.scss';
 .availabilityContainer{
     .availabityhead{
         margin: 0px;
         .title{
             text-align: center;
             border-radius: 2%;
+            text-transform: capitalize;
+            .availablitysearch{
+                width: 40%;
+                margin: auto;
+                padding: 30px;
+            }
+        }
+        .tableContainer{
+            .table{
+                .thead{
+                    background: $mainColor;
+                }
+            }
         }
     }
 }

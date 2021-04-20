@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Adminscreen } from "./admin-screens";
+import Adminscreen from "./admin-screens";
 import { UserScreen } from "./user-screens/index";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MainPaths, subpaths } from "../paths";
@@ -15,7 +15,7 @@ const MainScreen = (props) => {
       <Router>
         <Switch>
           <Route exact path={subpaths.adminpaths.main}>
-            <Adminscreen role={role} />
+            <Adminscreen />
           </Route>
           <Route exact path={subpaths.userpaths.main}>
             <UserScreen role={role} />

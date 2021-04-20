@@ -1,0 +1,33 @@
+@import '../../../constants/style.module.scss';
+.statscontainer{
+    .searchcontainer{
+        width: 50%;
+        margin: auto;
+        padding: 43px;
+    }
+    .body{
+        .listcontainer{
+            width: 80%;
+            margin: auto;
+            .actioncontainer{
+                padding: 20px;
+                padding-right: 0px;
+                justify-content: flex-end;
+                display: flex;
+                .buttoncontainer{
+                    width: 200px;
+                }
+            }
+            .actiondiv{
+                display: flex;
+                width: 100px;
+                justify-content: space-between;
+                i{
+                    cursor: pointer;
+                    color: $mainColor;
+                }
+            }
+            
+        }
+    }
+}

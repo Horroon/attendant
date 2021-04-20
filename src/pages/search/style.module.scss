@@ -1,0 +1,27 @@
+@import '../../constants/style.module.scss';
+.searchcontainer{
+    display: flex;
+    border: 1px solid $mainColor;
+    border-radius: 4px;
+    padding: 10px;
+    .inputcontainer{
+        width: 90%;
+        input{
+            outline: none;
+            width: 100%;
+            border: none;
+            color: $mainColor;
+            &::placeholder{
+                color: $mainColor;
+            }
+        }
+    }
+    .iconcontainer{
+        width: 10%;
+        i{
+            font-size: large;
+            color: $mainColor;
+            cursor: pointer;
+        }
+    }
+}
