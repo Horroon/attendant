@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Adminscreen from "./admin-screens";
 import { UserScreen } from "./user-screens/index";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import { MainPaths, subpaths } from "../paths";
 import styles from './style.module.scss';
 import Login from './login/index';
@@ -14,6 +14,7 @@ const MainScreen = (props) => {
     <div className={styles.mainbody}>
       <Router>
         <Switch>
+          <Route exact path="/" render={()=><Redirect to={MainPaths.login} />} />
           <Route exact path={subpaths.adminpaths.main}>
             <Adminscreen />
           </Route>

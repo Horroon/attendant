@@ -4,13 +4,19 @@ import logo from '../../assets/logo192.jpg'
 import { connect } from "react-redux";
 import { store } from "../../models";
 import {User} from '../../constants/properties'
+import { useToasts } from "react-toast-notifications";
 
 const Login = (props) => {
+  const {addToast} = useToasts()
   const {dispatch, LoginInfo:{role}} = props;
   const newRole = role === User.roles.user ? User.roles.admin : User.roles.user
  const changeRole = ()=>{
     store.dispatch.LoginInfo.updaterole(newRole)
  }
+ const login = ()=>{
+  addToast('You will see login soon ', {appearance:'info', autoDismiss:true})
+ }
+
   return (
     <div className="container h-100 login-card-body">
       <div className="d-flex justify-content-center h-100">
@@ -65,6 +71,7 @@ const Login = (props) => {
                   type="button"
                   name="button"
                   className="btn btn-success btn-md btn-block"
+                  onClick={login}
                 >
                   Login
                 </button>
