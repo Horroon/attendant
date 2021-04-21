@@ -3,9 +3,15 @@ import styles from "./style.module.scss";
 import { Avatar } from "../../avatar/index";
 import { MakeInitials } from "../../../utilities/build-initials";
 import { classes } from "../../../utilities/build-css-class";
+import { connect } from "react-redux";
+import { Redirect } from "react-router";
+import { MainPaths } from "../../../paths";
 
-export const UserCard = () => {
-  return (
+const UserCard = (props) => {
+  const {info, isLoggedIn} = props;
+  console.log('props ', props);
+  
+  return isLoggedIn ? (
     <div className={styles.cardcontainer}>
       <div className={classes("card w-50 m-auto", styles.card)}>
         <div className={classes("card-header", styles.cardheader)}>
@@ -16,19 +22,19 @@ export const UserCard = () => {
             <table className={classes("table", styles.cardtable)}>
               <tr>
                 <th>Emp Name: </th>
-                <td>Haroon Rasheed</td>
+                <td>{info.firstname} {info.lastname}</td>
               </tr>
               <tr>
-                <th>Mini hours: </th>
-                <td>2h</td>
+                <th>Emp Id: </th>
+                <td>{info.empId}</td>
               </tr>
               <tr>
                 <th>Dept: </th>
-                <td>IT</td>
+                <td>{info.dept}</td>
               </tr>
               <tr>
                 <th>Role: </th>
-                <td>Consultant</td>
+                <td>{info.role}</td>
               </tr>
             </table>
           </div>
@@ -41,7 +47,7 @@ export const UserCard = () => {
               </div>
               <div>
                 <button
-                  className="btn btn-primary btn-md"
+                  className="btn btn-info btn-md"
                   data-target="#exampleModalLong"
                   data-toggle="modal"
                 >
@@ -64,5 +70,7 @@ export const UserCard = () => {
         </div>
       </div>
     </div>
-  );
+  ):<Redirect to={MainPaths.login} />;
 };
+const mapStateToProps = (store=>store.LoginInfo)
+export default connect(mapStateToProps)(UserCard)

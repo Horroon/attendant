@@ -68,3 +68,6 @@
     color: #fff;
     box-shadow: none;
 }
+.error{
+    border-bottom: 2px solid red;
+}

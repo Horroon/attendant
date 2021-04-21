@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import "./style.css";
 import logo from "../../assets/logo192.jpg";
 import { connect } from "react-redux";
@@ -7,6 +7,37 @@ import { User } from "../../constants/properties";
 import { useToasts } from "react-toast-notifications";
 import { useHistory } from "react-router-dom";
 import { subpaths } from "../../paths";
+import { EmployeeLogin } from "../../operations/index";
+import { classes } from "../../utilities/build-css-class";
+
+const Properties = {
+  empId: "empId",
+  empCode: "empCode",
+  fieldEmptyError: "fieldEmptyError",
+  loader: "loader",
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case Properties.empId:
+      return { ...state, empId: action.payload, fieldEmptyError: false };
+    case Properties.empCode:
+      return { ...state, empCode: action.payload, fieldEmptyError: false };
+    case Properties.fieldEmptyError:
+      return { ...state, fieldEmptyError: true };
+    case Properties.loader:
+      return { ...state, loader: action.payload };
+    default:
+      return state;
+  }
+};
+
+const InitialState = {
+  empId: "",
+  empCode: "",
+  fieldEmptyError: false,
+  loader: false,
+};
 
 const Login = (props) => {
   const { addToast } = useToasts();
@@ -15,19 +46,51 @@ const Login = (props) => {
     LoginInfo: { role },
   } = props;
   const History = useHistory();
+  const [state, setState] = useReducer(reducer, InitialState);
+
   const newRole = role === User.roles.user ? User.roles.admin : User.roles.user;
   const changeRole = () => {
     store.dispatch.LoginInfo.updaterole(newRole);
   };
-  const login = () => {
-    role === User.roles.admin && History.push(subpaths.adminpaths.main);
-    role === User.roles.user && History.push(subpaths.userpaths.main);
-    addToast("You will see login soon ", {
-      appearance: "info",
-      autoDismiss: true,
-    });
+
+  const UserLogin = async (empId, empCode) => {
+    try {
+      const user = await EmployeeLogin(empId, empCode);
+      if (user?.data) {
+        store.dispatch.LoginInfo.updateinfo({role, isLoggedIn: true, info: user.data})
+        History.push(subpaths.userpaths.main);
+        addToast("Successfully logged in", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        addToast(error.response.data.error, { appearance: "error" });
+      } else {
+        addToast("Something went wrong", { appearance: "error" });
+      }
+    } finally {
+      setState({ type: Properties.loader, payload: false });
+    }
   };
 
+  const Changevalue = (e) => {
+    const { name, value } = e.target;
+    setState({ type: name, payload: value });
+  };
+  const login = () => {
+    const { empId, empCode } = state;
+    if (empId && empCode) {
+      setState({ type: Properties.loader, payload: true });
+      role === User.roles.user && UserLogin(empId, empCode);
+    } else {
+      setState({ type: Properties.fieldEmptyError });
+      debugger;
+    }
+  };
+
+  console.log("state ", state);
   return (
     <div className="container h-100 login-card-body">
       <div className="d-flex justify-content-center h-100">
@@ -45,7 +108,12 @@ const Login = (props) => {
               <div className="d-flex justify-content-center">
                 <h6 className="role">{role} login</h6>
               </div>
-              <div className="input-group mb-3">
+              <div
+                className={classes(
+                  "input-group mb-3",
+                  state.fieldEmptyError && !state.empId && "error"
+                )}
+              >
                 <div className="input-group-append">
                   <span className="input-group-text">
                     <i className="fas fa-user"></i>
@@ -53,13 +121,19 @@ const Login = (props) => {
                 </div>
                 <input
                   type="text"
-                  name="empId"
-                  className="form-control input_user"
-                  value=""
+                  name={Properties.empId}
+                  className={classes("form-control input_user")}
+                  value={state.empId}
+                  onChange={Changevalue}
                   placeholder="Employee ID"
                 />
               </div>
-              <div className="input-group mb-2">
+              <div
+                className={classes(
+                  "input-group mb-3",
+                  state.fieldEmptyError && !state.empCode && "error"
+                )}
+              >
                 <div className="input-group-append">
                   <span className="input-group-text">
                     <i className="fas fa-key"></i>
@@ -67,9 +141,10 @@ const Login = (props) => {
                 </div>
                 <input
                   type="password"
-                  name="pcode"
+                  name={Properties.empCode}
                   className="form-control input_pass"
-                  value=""
+                  value={state.empCode}
+                  onChange={Changevalue}
                   placeholder="PIN Code"
                 />
               </div>
@@ -79,8 +154,9 @@ const Login = (props) => {
                   name="button"
                   className="btn btn-success btn-md btn-block"
                   onClick={login}
+                  disabled={state.loader}
                 >
-                  Login
+                  {state.loader ? <i className="fas fa-spinner" /> : "Login"}
                 </button>
               </div>
             </form>
