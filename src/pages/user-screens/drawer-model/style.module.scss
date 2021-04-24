@@ -1,3 +1,4 @@
+@import '../../../constants/style.module.scss';
 .userdrawer{
     .dialog{
         min-width: 80%;
@@ -17,6 +18,13 @@
                     .displaydates{
                         padding: 3px;
                         padding-left: 10px;
+                    }
+                }
+                .table{
+                    color: #28a745;
+                    .tablehead{
+                        background: $mainColor;
+                        color: #fff;
                     }
                 }
             }

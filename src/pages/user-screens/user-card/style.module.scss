@@ -41,7 +41,10 @@
             justify-content: space-between;
             div {
                 margin-top: 10px;
-                min-width: 40%;
+                min-width: 100%;
+                button{
+                    color: #fff;
+                }
             }
         }
     }

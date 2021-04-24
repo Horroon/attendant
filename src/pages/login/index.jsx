@@ -7,8 +7,8 @@ import { User } from "../../constants/properties";
 import { useToasts } from "react-toast-notifications";
 import { useHistory } from "react-router-dom";
 import { subpaths } from "../../paths";
-import { EmployeeLogin } from "../../operations/index";
-import { classes } from "../../utilities/build-css-class";
+import { EmployeeLogin,AdminLogin } from "../../operations/index";
+import { classes, ShowError } from "../../utilities/index";
 
 const Properties = {
   empId: "empId",
@@ -55,25 +55,32 @@ const Login = (props) => {
 
   const UserLogin = async (empId, empCode) => {
     try {
-      const user = await EmployeeLogin(empId, empCode);
+      let user = role === User.roles.user && await EmployeeLogin(empId, empCode);
+      user = role === User.roles.admin && await AdminLogin(empId, empCode);
       if (user?.data) {
-        store.dispatch.LoginInfo.updateinfo({role, isLoggedIn: true, info: user.data})
-        History.push(subpaths.userpaths.main);
+        store.dispatch.LoginInfo.updateinfo({
+          role,
+          isLoggedIn: true,
+          info: user.data,
+        });
+        if (user.data.empCode == "0000" && role === User.roles.user) {
+          History.push(subpaths.newpin.main);
+        } else {
+          role === User.roles.user && History.push(subpaths.userpaths.main);
+          role === User.roles.admin && History.push(subpaths.adminpaths.main);
+        }
         addToast("Successfully logged in", {
           appearance: "success",
           autoDismiss: true,
         });
       }
     } catch (error) {
-      if (error.response) {
-        addToast(error.response.data.error, { appearance: "error" });
-      } else {
-        addToast("Something went wrong", { appearance: "error" });
-      }
+      ShowError(error, addToast);
     } finally {
       setState({ type: Properties.loader, payload: false });
     }
   };
+
 
   const Changevalue = (e) => {
     const { name, value } = e.target;
@@ -83,7 +90,7 @@ const Login = (props) => {
     const { empId, empCode } = state;
     if (empId && empCode) {
       setState({ type: Properties.loader, payload: true });
-      role === User.roles.user && UserLogin(empId, empCode);
+      UserLogin(empId, empCode);
     } else {
       setState({ type: Properties.fieldEmptyError });
       debugger;

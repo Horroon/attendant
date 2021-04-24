@@ -2,6 +2,11 @@ export const User = {
     roles:{
         user:'user',
         admin:'admin'
+    },
+    status:{
+        leave:'Leave',
+        available:'Available',
+        unavailable:'Unavailable'
     }
 }
 

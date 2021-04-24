@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useEffect, useReducer } from "react";
 import { Search } from "../../search";
 import styles from "./style.module.scss";
 
-const OverallStats = () => {
+const Properties = {
+  records:'RECORDS',
+}
+const reducer = (state, action)=>{
+  switch(action.type){
+    case Properties.records:
+      return {...state, records: action.payload};
+    default:
+      return state
+  }
+}
+
+const InitialState = {
+  records:[]
+}
+const OverallStats = (props) => {
+  const {employees} = props;
+  const [state, setState] = useReducer(reducer, InitialState);
+
+  useEffect(()=>{
+    setState({type: Properties.records, payload: employees})
+  },[employees]);
+
   return (
     <div className={styles.statscontainer}>
       <div className={styles.searchcontainer}>
@@ -29,11 +51,11 @@ const OverallStats = () => {
             </div>
           </div>
           <ul id="sortable" className="list-group">
-            {[1, 2, 3, 4, 5].map((emp) => (
+            {state.records.map((emp) => (
               <li className="list-group-item">
                 <div className="d-flex justify-content-around">
-                  <div>Firstname</div>
-                  <div>Lastname</div>
+                  <div>{emp.firstname}</div>
+                  <div>{emp.lastname}</div>
                   <div>Ave Working Hours</div>
                   <div>Total Working hours</div>
                 </div>

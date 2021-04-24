@@ -30,9 +30,9 @@ export const TodayAvailability = ({ records = [], title }) => {
               {records.map((record, index) => {
                 return (
                   <tr id={"avail-" + index}>
-                    <td>{index}</td>
-                    <td>{record.firstName}</td>
-                    <td>{record.lastName}</td>
+                    <td>{index + 1}</td>
+                    <td>{record.firstname}</td>
+                    <td>{record.lastname}</td>
                     <td>{record.dept}</td>
                     <td>{record.role}</td>
                     <td>{record.status}</td>
@@ -41,6 +41,9 @@ export const TodayAvailability = ({ records = [], title }) => {
               })}
             </tbody>
           </table>
+          <div className={styles.norecord}>
+            {!records.length && "No record exists"}
+          </div>
         </div>
       </div>
     </div>

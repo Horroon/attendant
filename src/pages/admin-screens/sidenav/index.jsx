@@ -7,20 +7,22 @@ import {Adminpages} from "../../../constants/properties";
 import { classes } from "../../../utilities/build-css-class";
 
 const AdminSideNav = (props) => {
-    const {currentpageId, dispatch} = props
+    const {LoginInfo, Admin, dispatch} = props;
+    const {info} = LoginInfo 
+    const {currentpageId} = Admin
 
     const selectedclass = 'selected'
 
     const ChangepageId = (id)=>dispatch.Admin.updatepageId(id);
-
+    console.log('props in sidenav ', props)
   return (
     <div className={styles.sidenav}>
       <div className={styles.info}>
         <div className={styles.imgcontainer}>
-          <Avatar Initials={MakeInitials("Haroon Rasheed")} />
+          <Avatar Initials={MakeInitials(info.author)} />
         </div>
         <div className={styles.namecontainer}>
-          <h4>Haroon Rasheed</h4>
+          <h4>{info.author}</h4>
         </div>
       </div>
       <div className={styles.adminroles}>
@@ -61,5 +63,5 @@ const AdminSideNav = (props) => {
     </div>
   );
 };
-const mapStateToProps = (store=>store.Admin);
+const mapStateToProps = (store=>store);
 export default connect(mapStateToProps)(AdminSideNav)

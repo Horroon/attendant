@@ -1,19 +1,22 @@
-import React, { useReducer } from "react";
-import { classes } from "../../../utilities/build-css-class";
+import React, { useEffect, useReducer } from "react";
+import { classes, TotalTime, IsDateInRange } from "../../../utilities/index";
 import styles from "./style.module.scss";
 import { DatePicker } from "../../date-range-picker/index";
 import moment from "moment";
+import { connect } from "react-redux";
 
 const Properties = {
   updateStartDate: "sDate",
   updateEndDate: "eDate",
   clearDate: "cDate",
+  attendance: "attendance",
 };
 const InitialState = {
   dates: {
     startDate: new Date().toLocaleDateString(),
     endDate: new Date().toLocaleDateString(),
   },
+  attendance: [],
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -21,29 +24,63 @@ const reducer = (state, action) => {
       return { ...state, dates: { ...state.dates, startDate: action.payload } };
     case Properties.updateEndDate:
       return { ...state, dates: { ...state.dates, endDate: action.payload } };
+    case Properties.attendance:
+      return { ...state, attendance: action.payload };
     default:
       return state;
   }
 };
-export const DrawerModel = () => {
+const DrawerModel = (user) => {
   const [state, setState] = useReducer(reducer, InitialState);
 
   const DateHandler = (event, picker) => {
     const { startDate, endDate } = picker;
-    console.log("startdate ", startDate, " enddate ", endDate);
-    debugger;
-    startDate &&
-      setState({
-        type: Properties.updateStartDate,
-        payload: startDate.format("L"),
-      });
-    endDate &&
-      setState({
-        type: Properties.updateEndDate,
-        payload: endDate.format("L"),
-      });
+    const {
+      info: { attendances },
+    } = user;
+    const ENDDATE = endDate ? endDate : startDate
+    if(startDate){
+        const newattendance = attendances.filter((date) => {
+            if (date?.punchin) {
+              return IsDateInRange(startDate,ENDDATE, date.punchin);
+            }
+            if (date?.leave) {
+              return IsDateInRange(startDate,ENDDATE, date.leave);;
+            } else {
+              debugger;
+              return false;
+            }
+          });
+            setState({
+              type: Properties.updateStartDate,
+              payload: startDate.format("L"),
+            });
+            setState({
+              type: Properties.updateEndDate,
+              payload: ENDDATE.format("L"),
+            });
+          setState({ type: Properties.attendance, payload: newattendance });
+    }
   };
-  console.log("state ", state);
+
+  useEffect(() => {
+    const {
+      isLoggedIn,
+      info: { attendances },
+    } = user;
+    if (isLoggedIn) {
+      setState({ type: Properties.attendance, payload: attendances });
+      if (attendances.length) {
+        const startdate = attendances[0].punchin
+          ? new Date(attendances[0].punchin).toLocaleDateString()
+          : new Date().toLocaleDateString();
+        const enddate = new Date().toLocaleDateString();
+        setState({ type: Properties.updateStartDate, payload: startdate });
+        setState({ type: Properties.updateEndDate, payload: enddate });
+      }
+    }
+  }, [user]);
+  console.log("state ", user);
   return (
     <div
       className={classes("modal fade", styles.userdrawer)}
@@ -81,13 +118,14 @@ export const DrawerModel = () => {
               </div>
               <div className={styles.displaydates}>
                 <p>
-                  <span>{moment(state.dates.startDate).format('ll') }</span> <i className="fas fa-arrow-right" />{" "}
-                  <span> {moment(state.dates.endDate).format('ll')} </span>{" "}
+                  <span>{moment(state.dates.startDate).format("ll")}</span>{" "}
+                  <i className="fas fa-arrow-right" />{" "}
+                  <span> {moment(state.dates.endDate).format("ll")} </span>{" "}
                 </p>
               </div>
             </div>
-            <table className={classes("table table-bordered")}>
-              <thead className={classes("thead-dark")}>
+            <table className={classes("table table-bordered", styles.table)}>
+              <thead className={classes("thead", styles.tablehead)}>
                 <tr>
                   <th>Sr</th>
                   <th>Date</th>
@@ -97,20 +135,47 @@ export const DrawerModel = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>12-04-2021</td>
-                  <td>12:20:00</td>
-                  <td>15:12:00</td>
-                  <td>4</td>
-                </tr>
+                {state.attendance.length
+                  ? state.attendance.map((day, index) => {
+                      return (
+                        <tr key={"rec-" + index}>
+                          <td>{index + 1}</td>
+                          <td>
+                            {day.punchin
+                              ? moment(day.punchin).format("LLLL")
+                              : day.leave
+                              ? moment(day.leave).format("LLLL")
+                              : ""}
+                          </td>
+                          <td>
+                            {day.punchin
+                              ? moment(day.punchin).format("LT")
+                              : ""}
+                          </td>
+                          <td>
+                            {day.punchout
+                              ? moment(day.punchout).format("LT")
+                              : ""}
+                          </td>
+                          <td>
+                            {day.punchin
+                              ? TotalTime(day.punchin, day.punchout)
+                              : day.leave
+                              ? "leave"
+                              : ""}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  : ""}
               </tbody>
             </table>
+            <div>{!state.attendance.length && "You have no record to display"}</div>
           </div>
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-danger"
               data-dismiss="modal"
             >
               Close
@@ -121,3 +186,7 @@ export const DrawerModel = () => {
     </div>
   );
 };
+
+const mapStateToProps = (store) => store.LoginInfo;
+
+export default connect(mapStateToProps)(DrawerModel);
