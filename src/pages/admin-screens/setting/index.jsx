@@ -8,7 +8,8 @@ import {OfficeHours} from './office-hours';
 
 const Properties = {
   addemp: "NewEmployee",
-  records:"Records"
+  records:"Records",
+  searchrecord:'searchrecord',
 };
 
 const reducer = (state, action) => {
@@ -17,6 +18,8 @@ const reducer = (state, action) => {
       return { ...state, addemp: action.payload };
     case Properties.records:
       return {...state, records: action.payload};
+    case Properties.searchrecord:
+      return {...state, searchtext: action.payload };
     default:
       return state;
   }
@@ -31,14 +34,22 @@ const Setting = (props) => {
   const {info} = LoginInfo
   const [state, setState] = useReducer(reducer, InitialState);
 
+  const SearchHandler = (e)=>{
+    debugger
+    const {name, value} = e.target;
+    setState({type: name, payload: value})
+  }
+
   useEffect(()=>{
     setState({type: Properties.records, payload: info.employees})
-  },[info.employees])
-  console.log('props ', props)
+  },[info.employees]);
+
+  const recordsToDisplay = state.searchtext ? state.records.filter(rcd=>(rcd.firstname +' ' + rcd.lastname).includes(state.searchtext)) : state.records
+  
   return (
     <div className={styles.statscontainer}>
       <div className={styles.searchcontainer}>
-        <Search placeholder="Search employee e.g Adnan" />
+        <Search placeholder="Search employee e.g Adnan" name={Properties.searchrecord} searchHandler={SearchHandler}/>
       </div>
       <div className={styles.body}>
         <div className={styles.listcontainer}>
@@ -57,7 +68,7 @@ const Setting = (props) => {
             <NewEmployee shouldIShow={state.addemp} />
           </div>
           <ul id="sortable" className="list-group">
-            {state.records.map((emp) => (
+            {recordsToDisplay.map((emp) => (
               <EmployeeListItem emp={emp} styles={styles} />
             ))}
           </ul>

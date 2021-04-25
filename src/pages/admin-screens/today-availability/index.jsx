@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { classes } from "../../../utilities/build-css-class";
 import styles from "./style.module.scss";
 import { Search } from "../../search/index";
 
 
 export const TodayAvailability = ({ records = [], title }) => {
+  const [searchtext, setSearchText] = useState('');
+
+  const SearchHandler = (e)=>{
+    const {value} = e.target;
+    setSearchText(value);
+  }
+
+
+  const recordsToDisplay = searchtext ? records.filter(rcd=>(rcd.firstname +' ' + rcd.lastname).includes(searchtext)) : records
+  
   return title && (
     <div className={styles.availabilityContainer}>
       <div className={classes("row", styles.availabityhead)}>
         <div className={classes("col-lg-12", "col-md-12", styles.title)}>
           <div className={styles.availablitysearch}>
-            <Search placeholder="Search by name" />
+            <Search placeholder="Search by name" searchHandler={SearchHandler} name="Availability Search" />
           </div>
           <h4>{title}</h4>
         </div>
@@ -27,7 +37,7 @@ export const TodayAvailability = ({ records = [], title }) => {
               </tr>
             </thead>
             <tbody>
-              {records.map((record, index) => {
+              {recordsToDisplay.map((record, index) => {
                 return (
                   <tr id={"avail-" + index}>
                     <td>{index + 1}</td>
