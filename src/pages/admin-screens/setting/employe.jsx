@@ -51,7 +51,6 @@ export const EmployeeListItem = (props) => {
 
   const ChangeHandler = (e) => {
     const { name, value } = e.target;
-    debugger;
     setState({ type: name, payload: value });
     setState({type: Properties.updatebtn, payload: true})
   };
@@ -100,8 +99,6 @@ export const EmployeeListItem = (props) => {
       payload: { fname: emp.firstname, lname: emp.lastname },
     });
   }, []);
-  debugger;
-  console.log("state ", state);
   return (
     <li className="list-group-item">
       <div className="d-flex justify-content-around">

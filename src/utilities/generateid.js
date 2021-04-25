@@ -16,7 +16,5 @@ export function GenerateId(dept) {
       var ran = Math.floor(Math.random() * 9);
       if (splitted.indexOf(ran) < 0) splitted.push(ran);
     }
-  
-    console.log(splitted.join(""))
       return deptId + '-' + splitted.join("");
   }

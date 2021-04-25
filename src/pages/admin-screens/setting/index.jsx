@@ -35,7 +35,6 @@ const Setting = (props) => {
   const [state, setState] = useReducer(reducer, InitialState);
 
   const SearchHandler = (e)=>{
-    debugger
     const {name, value} = e.target;
     setState({type: name, payload: value})
   }

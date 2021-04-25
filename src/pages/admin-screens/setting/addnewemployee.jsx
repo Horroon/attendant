@@ -51,7 +51,6 @@ export const NewEmployee = ({ shouldIShow }) => {
   const HandleChange = (e) => {
     const { name, value } = e.target;
     setState({ type: name, payload: value });
-    debugger;
     if (name === Properties.department) {
       const newEmpId = (value && GenerateId(value)) || "";
       setState({ type: Properties.empId, payload: newEmpId });
@@ -85,7 +84,6 @@ export const NewEmployee = ({ shouldIShow }) => {
       });
     }
   };
-  console.log("state ", state);
   return (
     shouldIShow && (
       <div>

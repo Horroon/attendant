@@ -92,11 +92,9 @@ const Login = (props) => {
       UserLogin(empId, empCode);
     } else {
       setState({ type: Properties.fieldEmptyError });
-      debugger;
     }
   };
 
-  console.log("state ", state);
   return (
     <div className="container h-100 login-card-body">
       <div className="d-flex justify-content-center h-100">

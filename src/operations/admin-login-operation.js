@@ -8,6 +8,5 @@ export const AdminLogin = async (empId, empCode) => {
     .post(path, data, { method: "POST" })
     .then((res) => res.data);
 
-  console.log("logged in user", loggedInUser);
   return loggedInUser;
 };

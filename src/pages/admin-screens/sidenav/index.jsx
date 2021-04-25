@@ -14,7 +14,6 @@ const AdminSideNav = (props) => {
     const selectedclass = 'selected'
 
     const ChangepageId = (id)=>dispatch.Admin.updatepageId(id);
-    console.log('props in sidenav ', props)
   return (
     <div className={styles.sidenav}>
       <div className={styles.info}>

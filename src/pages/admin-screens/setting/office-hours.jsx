@@ -85,11 +85,9 @@ export const OfficeHours = (props) => {
   };
 
   useEffect(() => {
-    console.log("time ", time);
     setState({ type: Properties.whole, payload: time });
   }, [time]);
 
-  console.log("state ", state);
   return (
     <div className="row d-flex w-100">
       <div className="col-lg-6 col-md-6 d-flex">

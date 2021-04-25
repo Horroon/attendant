@@ -47,7 +47,6 @@ const DrawerModel = (user) => {
             if (date?.leave) {
               return IsDateInRange(startDate,ENDDATE, date.leave);;
             } else {
-              debugger;
               return false;
             }
           });
@@ -80,7 +79,6 @@ const DrawerModel = (user) => {
       }
     }
   }, [user]);
-  console.log("state ", user);
   return (
     <div
       className={classes("modal fade", styles.userdrawer)}

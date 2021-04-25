@@ -8,6 +8,5 @@ export const EmployeePunchIn = async (empId, empCode, punchindate) => {
     .post(path, data, { method: "POST" })
     .then((res) => res.data);
 
-  console.log("logged in user", loggedInUser);
   return loggedInUser;
 };

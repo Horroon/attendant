@@ -13,6 +13,5 @@ export const FindAverageHours = (dates) => {
   }
 
   const avg = sum / totaldates;
-  debugger
   return avg || 0
 };

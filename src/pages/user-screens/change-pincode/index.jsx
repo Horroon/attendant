@@ -89,7 +89,6 @@ const ChangePinCode = (props) => {
         ShowError(e, addToast);
     }
   }
-  console.log("state ", props);
   return isLoggedIn ? (
     <div className="container h-100 login-card-body">
       <div className="d-flex justify-content-center h-100">

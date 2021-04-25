@@ -83,7 +83,6 @@ const Adminscreen = (props) => {
       currentpageId === Adminpages.availability.subpages.onleaves.id && FilterRecords(User.status.leave) 
     }
   }, [currentpageId]);
-  console.log("props ", props);
   return (
     role === User.roles.admin ? (
       <div className={styles.admincontainer}>

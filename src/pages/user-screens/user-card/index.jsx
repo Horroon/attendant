@@ -86,7 +86,6 @@ const UserCard = (props) => {
     try {
       const { empId, empCode } = info;
       const currentdatetime = new Date().toISOString();
-      debugger;
       const user = await EmployeePunchIn(empId, empCode, currentdatetime);
       if (user.data) {
         setState({ type: Properties.punchoutbtn, payload: true });
@@ -101,7 +100,6 @@ const UserCard = (props) => {
     try {
       const { empId, empCode } = info;
       const currentdatetime = new Date().toISOString();
-      debugger;
       const user = await EmployeeTakeLeave(empId, empCode, currentdatetime);
       if (user.data) {
         setState({ type: Properties.punchoutbtn, payload: true });
@@ -152,7 +150,6 @@ const UserCard = (props) => {
       History.push(MainPaths.login);
     }
   }, [info]);
-  console.log("props ", info);
 
   return isLoggedIn ? (
     <div className={styles.cardcontainer}>
