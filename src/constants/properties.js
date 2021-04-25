@@ -10,6 +10,7 @@ export const User = {
     }
 }
 
+export const Departments = ['Network Department','Software Engineer', 'Security Manager', 'Vice IT', 'Client Services'];
 export const Adminpages = {
     availability:{
         id:'availability',

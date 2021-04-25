@@ -1,16 +1,21 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Search } from "../../search/index";
 import styles from "./style.module.scss";
 import { NewEmployee } from "./addnewemployee";
+import {EmployeeListItem} from './employe';
+import { connect } from "react-redux";
 
 const Properties = {
   addemp: "NewEmployee",
+  records:"Records"
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case Properties.addemp:
       return { ...state, addemp: action.payload };
+    case Properties.records:
+      return {...state, records: action.payload};
     default:
       return state;
   }
@@ -18,9 +23,17 @@ const reducer = (state, action) => {
 
 const InitialState = {
   addemp: false,
+  records: []
 };
-const Setting = () => {
+const Setting = (props) => {
+  const {LoginInfo} = props;
+  const {info} = LoginInfo
   const [state, setState] = useReducer(reducer, InitialState);
+
+  useEffect(()=>{
+    setState({type: Properties.records, payload: info.employees})
+  },[info.employees])
+  console.log('props ', props)
   return (
     <div className={styles.statscontainer}>
       <div className={styles.searchcontainer}>
@@ -41,23 +54,8 @@ const Setting = () => {
             <NewEmployee shouldIShow={state.addemp} />
           </div>
           <ul id="sortable" className="list-group">
-            {[1, 2, 3, 4, 5].map((emp) => (
-              <li className="list-group-item">
-                <div className="d-flex justify-content-around">
-                  <div>Firstname</div>
-                  <div>Lastname</div>
-                  <div>Ave Working Hours</div>
-                  <div>Total Working hours</div>
-                  <div className={styles.actiondiv}>
-                    <div>
-                      <i className="fas fa-edit" />
-                    </div>{" "}
-                    <div>
-                      <i className="fas fa-trash" />
-                    </div>{" "}
-                  </div>
-                </div>
-              </li>
+            {state.records.map((emp) => (
+              <EmployeeListItem emp={emp} styles={styles} />
             ))}
           </ul>
         </div>
@@ -66,4 +64,6 @@ const Setting = () => {
   );
 };
 
-export default Setting;
+const mapStateToProps = (store=>store);
+
+export default connect(mapStateToProps)(Setting);

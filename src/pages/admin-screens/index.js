@@ -77,9 +77,11 @@ const Adminscreen = (props) => {
   }
   
   useEffect(() => {
-    currentpageId === Adminpages.availability.subpages.availables.id && FilterRecords(User.status.available)
-    currentpageId === Adminpages.availability.subpages.unavailables.id && FilterRecords(User.status.unavailable)
-    currentpageId === Adminpages.availability.subpages.onleaves.id && FilterRecords(User.status.leave) 
+    if(LoginInfo.isLoggedIn){
+      currentpageId === Adminpages.availability.subpages.availables.id && FilterRecords(User.status.available)
+      currentpageId === Adminpages.availability.subpages.unavailables.id && FilterRecords(User.status.unavailable)
+      currentpageId === Adminpages.availability.subpages.onleaves.id && FilterRecords(User.status.leave) 
+    }
   }, [currentpageId]);
   console.log("props ", props);
   return (

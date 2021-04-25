@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from "react";
+import { FindAverageHours, FindOverallTimeHours } from "../../../utilities";
 import { Search } from "../../search";
 import styles from "./style.module.scss";
 
@@ -22,7 +23,14 @@ const OverallStats = (props) => {
   const [state, setState] = useReducer(reducer, InitialState);
 
   useEffect(()=>{
-    setState({type: Properties.records, payload: employees})
+    if(employees.length){
+      employees.map(emp=>{
+        emp.avghrs = FindAverageHours(emp.attendances);
+        emp.totalhrs = FindOverallTimeHours(emp.attendances);
+      })
+    
+      setState({type: Properties.records, payload: employees})
+    }
   },[employees]);
 
   return (
@@ -56,8 +64,8 @@ const OverallStats = (props) => {
                 <div className="d-flex justify-content-around">
                   <div>{emp.firstname}</div>
                   <div>{emp.lastname}</div>
-                  <div>Ave Working Hours</div>
-                  <div>Total Working hours</div>
+                  <div>{emp.avghrs} avg hours</div>
+                  <div>{emp.totalhrs} total hours</div>
                 </div>
               </li>
             ))}

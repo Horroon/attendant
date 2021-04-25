@@ -55,8 +55,7 @@ const Login = (props) => {
 
   const UserLogin = async (empId, empCode) => {
     try {
-      let user = role === User.roles.user && await EmployeeLogin(empId, empCode);
-      user = role === User.roles.admin && await AdminLogin(empId, empCode);
+      let user = role === User.roles.user && await EmployeeLogin(empId, empCode) || role === User.roles.admin && await AdminLogin(empId, empCode);
       if (user?.data) {
         store.dispatch.LoginInfo.updateinfo({
           role,

@@ -9,6 +9,11 @@
         .listcontainer{
             width: 80%;
             margin: auto;
+            [class~='editable-field']{
+                outline: none;
+                border: none;
+                background: transparent
+            };
             .actioncontainer{
                 padding: 20px;
                 padding-right: 0px;
