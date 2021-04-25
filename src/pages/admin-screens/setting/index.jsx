@@ -4,6 +4,7 @@ import styles from "./style.module.scss";
 import { NewEmployee } from "./addnewemployee";
 import {EmployeeListItem} from './employe';
 import { connect } from "react-redux";
+import {OfficeHours} from './office-hours';
 
 const Properties = {
   addemp: "NewEmployee",
@@ -41,6 +42,8 @@ const Setting = (props) => {
       </div>
       <div className={styles.body}>
         <div className={styles.listcontainer}>
+
+        <OfficeHours info={info} />
           <div className={styles.actioncontainer}>
             <div className={styles.buttoncontainer}>
               {!state.addemp ? (

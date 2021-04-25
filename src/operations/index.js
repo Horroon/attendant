@@ -6,6 +6,8 @@ import {EmployeeChangePinCode} from './employee-change-pincode';
 import {AdminLogin} from './admin-login-operation';
 import {AddNewEmployee} from './add-new-employee';
 import { UpdateEmployee } from './update-employee';
+import {UpdateTime} from './update-time';
+import {DeleteEmployee} from './delete-employee';
 
 export {
     EmployeeLogin,
@@ -15,5 +17,7 @@ export {
     EmployeeChangePinCode,
     AdminLogin,
     AddNewEmployee,
-    UpdateEmployee
+    UpdateEmployee,
+    UpdateTime,
+    DeleteEmployee
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useReducer } from "react";
 import { useToasts } from "react-toast-notifications";
 import { User } from "../../../constants/properties";
 import { store } from "../../../models";
-import { UpdateEmployee } from "../../../operations";
+import { UpdateEmployee,DeleteEmployee } from "../../../operations";
 import {FindAverageHours, FindOverallTimeHours, ShowError} from '../../../utilities/index';
 
 const Properties = {
@@ -75,6 +75,25 @@ export const EmployeeListItem = (props) => {
       }
   }
 
+  const DeleteEmployeeMethod = async()=>{
+    try{
+        const data = await DeleteEmployee(emp.empId);
+        if (data?.data) {
+            store.dispatch.LoginInfo.updateinfo({
+              role: User.roles.admin,
+              isLoggedIn: true,
+              info: data.data,
+            });
+            addToast("user successfully deleted", {
+              appearance: "success",
+              autoDismiss: true,
+            });
+          }
+      }catch(e){
+          ShowError(e,addToast)
+      }
+  };
+
   useEffect(() => {
     setState({
       type: Properties.updatewhole,
@@ -111,7 +130,7 @@ export const EmployeeListItem = (props) => {
             {!state.contentEditable ? <i className="fas fa-edit"  onClick={()=>setState({type: Properties.contentEditable, payload: true})}/> : <button className="btn btn-sm btn-success" disabled={!state.updatebtn} onClick={UpdateData}>Update</button>}
           </div>{" "}
           <div>
-            <i className="fas fa-trash" />
+            <i className="fas fa-trash" onClick={DeleteEmployeeMethod} />
           </div>{" "}
         </div>
       </div>
