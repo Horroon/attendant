@@ -1,5 +1,9 @@
 import React, { useEffect, useReducer } from "react";
-import {FindAverageHours, FindOverallTimeHours} from '../../../utilities/index';
+import { useToasts } from "react-toast-notifications";
+import { User } from "../../../constants/properties";
+import { store } from "../../../models";
+import { UpdateEmployee } from "../../../operations";
+import {FindAverageHours, FindOverallTimeHours, ShowError} from '../../../utilities/index';
 
 const Properties = {
   fname: "fname",
@@ -43,12 +47,33 @@ const InitialState = {
 export const EmployeeListItem = (props) => {
   const { styles, emp } = props;
   const [state, setState] = useReducer(reducer, InitialState);
+  const {addToast} = useToasts()
 
   const ChangeHandler = (e) => {
     const { name, value } = e.target;
     debugger;
     setState({ type: name, payload: value });
+    setState({type: Properties.updatebtn, payload: true})
   };
+
+  const UpdateData = async()=>{
+      try{
+        const data = await UpdateEmployee(emp.empId, emp.empCode, state.fname, state.lname);
+        if (data?.data) {
+            store.dispatch.LoginInfo.updateinfo({
+              role: User.roles.admin,
+              isLoggedIn: true,
+              info: data.data,
+            });
+            addToast("Record updated successfully", {
+              appearance: "success",
+              autoDismiss: true,
+            });
+          }
+      }catch(e){
+          ShowError(e,addToast)
+      }
+  }
 
   useEffect(() => {
     setState({
@@ -82,8 +107,8 @@ export const EmployeeListItem = (props) => {
         <div>{FindAverageHours(emp.attendances)} avg hours</div>
         <div>{FindOverallTimeHours(emp.attendances)} total hours</div>
         <div className={styles.actiondiv}>
-          <div onClick={()=>setState({type: Properties.contentEditable, payload: true})}>
-            <i className="fas fa-edit" />
+          <div>
+            {!state.contentEditable ? <i className="fas fa-edit"  onClick={()=>setState({type: Properties.contentEditable, payload: true})}/> : <button className="btn btn-sm btn-success" disabled={!state.updatebtn} onClick={UpdateData}>Update</button>}
           </div>{" "}
           <div>
             <i className="fas fa-trash" />
