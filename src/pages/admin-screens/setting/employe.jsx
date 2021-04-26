@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer } from "react";
 import { useToasts } from "react-toast-notifications";
 import { User } from "../../../constants/properties";
-import { store } from "../../../models";
 import { UpdateEmployee,DeleteEmployee } from "../../../operations";
 import {FindAverageHours, FindOverallTimeHours, ShowError} from '../../../utilities/index';
 
@@ -45,7 +44,7 @@ const InitialState = {
   updatebtn: false,
 };
 export const EmployeeListItem = (props) => {
-  const { styles, emp } = props;
+  const { styles, emp,dispatch } = props;
   const [state, setState] = useReducer(reducer, InitialState);
   const {addToast} = useToasts()
 
@@ -59,7 +58,7 @@ export const EmployeeListItem = (props) => {
       try{
         const data = await UpdateEmployee(emp.empId, emp.empCode, state.fname, state.lname);
         if (data?.data) {
-            store.dispatch.LoginInfo.updateinfo({
+            dispatch.LoginInfo.updateinfo({
               role: User.roles.admin,
               isLoggedIn: true,
               info: data.data,
@@ -78,7 +77,7 @@ export const EmployeeListItem = (props) => {
     try{
         const data = await DeleteEmployee(emp.empId);
         if (data?.data) {
-            store.dispatch.LoginInfo.updateinfo({
+            dispatch.LoginInfo.updateinfo({
               role: User.roles.admin,
               isLoggedIn: true,
               info: data.data,
@@ -98,7 +97,7 @@ export const EmployeeListItem = (props) => {
       type: Properties.updatewhole,
       payload: { fname: emp.firstname, lname: emp.lastname },
     });
-  }, []);
+  }, [emp]);
   return (
     <li className="list-group-item">
       <div className="d-flex justify-content-around">

@@ -1,8 +1,6 @@
-import moment from "moment";
 import React, { useEffect, useReducer, useState } from "react";
 import { useToasts } from "react-toast-notifications";
 import { User } from "../../../constants/properties";
-import { store } from "../../../models";
 import { UpdateTime } from "../../../operations";
 import { ShowError } from "../../../utilities";
 
@@ -46,7 +44,7 @@ const reducer = (state, action) => {
   }
 };
 export const OfficeHours = (props) => {
-  const { info } = props;
+  const { info, dispatch } = props;
   const { time } = info;
   const [state, setState] = useReducer(reducer, InitialState);
   const { addToast } = useToasts();
@@ -63,7 +61,7 @@ export const OfficeHours = (props) => {
         leaveduration: state.leaveduration.split(':').length < 3 ? state.leaveduration + ':00' : state.leaveduration,
       });
       if (data?.data) {
-        store.dispatch.LoginInfo.updateinfo({
+        dispatch.LoginInfo.updateinfo({
           role: User.roles.admin,
           isLoggedIn: true,
           info: data.data,

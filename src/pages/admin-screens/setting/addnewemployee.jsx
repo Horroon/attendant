@@ -1,7 +1,6 @@
 import React, { useReducer } from "react";
 import { useToasts } from "react-toast-notifications";
 import { Departments, User } from "../../../constants/properties";
-import { store } from "../../../models";
 import { AddNewEmployee } from "../../../operations";
 import { GenerateId, ShowError } from "../../../utilities";
 
@@ -44,7 +43,8 @@ const reducer = (state, action) => {
       return state;
   }
 };
-export const NewEmployee = ({ shouldIShow }) => {
+export const NewEmployee = (props) => {
+  const { shouldIShow, dispatch } = props
   const [state, setState] = useReducer(reducer, InitialState);
   const { addToast } = useToasts();
 
@@ -63,7 +63,7 @@ export const NewEmployee = ({ shouldIShow }) => {
       try {
         let data = await AddNewEmployee(empId, empCode,fname,lname,role,email,department);
         if (data?.data) {
-          store.dispatch.LoginInfo.updateinfo({
+          dispatch.LoginInfo.updateinfo({
             role: User.roles.admin,
             isLoggedIn: true,
             info: data.data,

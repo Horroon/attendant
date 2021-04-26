@@ -13,7 +13,7 @@ export const TodayAvailability = ({ records = [], title }) => {
   }
 
 
-  const recordsToDisplay = searchtext ? records.filter(rcd=>(rcd.firstname +' ' + rcd.lastname).includes(searchtext)) : records
+  const recordsToDisplay = searchtext ? records.filter(rcd=>((rcd.firstname +' ' + rcd.lastname).toLowerCase()).includes((searchtext).toLowerCase())) : records
   
   return title && (
     <div className={styles.availabilityContainer}>

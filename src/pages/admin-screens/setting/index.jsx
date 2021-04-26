@@ -2,14 +2,14 @@ import React, { useEffect, useReducer } from "react";
 import { Search } from "../../search/index";
 import styles from "./style.module.scss";
 import { NewEmployee } from "./addnewemployee";
-import {EmployeeListItem} from './employe';
+import { EmployeeListItem } from "./employe";
 import { connect } from "react-redux";
-import {OfficeHours} from './office-hours';
+import { OfficeHours } from "./office-hours";
 
 const Properties = {
   addemp: "NewEmployee",
-  records:"Records",
-  searchrecord:'searchrecord',
+  records: "Records",
+  searchrecord: "searchrecord",
 };
 
 const reducer = (state, action) => {
@@ -17,9 +17,9 @@ const reducer = (state, action) => {
     case Properties.addemp:
       return { ...state, addemp: action.payload };
     case Properties.records:
-      return {...state, records: action.payload};
+      return { ...state, records: action.payload };
     case Properties.searchrecord:
-      return {...state, searchtext: action.payload };
+      return { ...state, searchtext: action.payload };
     default:
       return state;
   }
@@ -27,48 +27,71 @@ const reducer = (state, action) => {
 
 const InitialState = {
   addemp: false,
-  records: []
+  records: [],
 };
 const Setting = (props) => {
-  const {LoginInfo} = props;
-  const {info} = LoginInfo
+  const { LoginInfo,dispatch } = props;
+  const { info } = LoginInfo;
   const [state, setState] = useReducer(reducer, InitialState);
 
-  const SearchHandler = (e)=>{
-    const {name, value} = e.target;
-    setState({type: name, payload: value})
-  }
+  const SearchHandler = (e) => {
+    const { name, value } = e.target;
+    setState({ type: name, payload: value });
+  };
 
-  useEffect(()=>{
-    setState({type: Properties.records, payload: info.employees})
-  },[info.employees]);
+  useEffect(() => {
+    setState({ type: Properties.records, payload: info.employees });
+  }, [info.employees]);
 
-  const recordsToDisplay = state.searchtext ? state.records.filter(rcd=>(rcd.firstname +' ' + rcd.lastname).includes(state.searchtext)) : state.records
-  
+  const recordsToDisplay = state.searchtext
+    ? state.records.filter((rcd) =>
+        (rcd.firstname + " " + rcd.lastname)
+          .toLowerCase()
+          .includes(state.searchtext.toLowerCase())
+      )
+    : state.records;
+
   return (
     <div className={styles.statscontainer}>
       <div className={styles.searchcontainer}>
-        <Search placeholder="Search employee e.g Adnan" name={Properties.searchrecord} searchHandler={SearchHandler}/>
+        <Search
+          placeholder="Search employee e.g Adnan"
+          name={Properties.searchrecord}
+          searchHandler={SearchHandler}
+        />
       </div>
       <div className={styles.body}>
         <div className={styles.listcontainer}>
-
-        <OfficeHours info={info} />
+          <OfficeHours info={info} dispatch={dispatch} />
           <div className={styles.actioncontainer}>
             <div className={styles.buttoncontainer}>
               {!state.addemp ? (
-                <button className="btn btn-success btn-sm btn-block" onClick={()=>setState({type: Properties.addemp, payload: true})}>
+                <button
+                  className="btn btn-success btn-sm btn-block"
+                  onClick={() =>
+                    setState({ type: Properties.addemp, payload: true })
+                  }
+                >
                   Add New Employee
-                </button> 
-              ): <button className="btn btn-secondary btn-sm btn-block" onClick={()=>setState({type: Properties.addemp, payload: false})}>close form</button>}
+                </button>
+              ) : (
+                <button
+                  className="btn btn-secondary btn-sm btn-block"
+                  onClick={() =>
+                    setState({ type: Properties.addemp, payload: false })
+                  }
+                >
+                  close form
+                </button>
+              )}
             </div>
           </div>
           <div>
-            <NewEmployee shouldIShow={state.addemp} />
+            <NewEmployee shouldIShow={state.addemp} dispatch={dispatch} />
           </div>
           <ul id="sortable" className="list-group">
             {recordsToDisplay.map((emp) => (
-              <EmployeeListItem emp={emp} styles={styles} />
+              <EmployeeListItem emp={emp} styles={styles} dispatch={dispatch} />
             ))}
           </ul>
         </div>
@@ -77,6 +100,6 @@ const Setting = (props) => {
   );
 };
 
-const mapStateToProps = (store=>store);
+const mapStateToProps = (store) => store;
 
 export default connect(mapStateToProps)(Setting);

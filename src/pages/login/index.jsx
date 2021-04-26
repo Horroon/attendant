@@ -2,7 +2,6 @@ import React, { useReducer } from "react";
 import "./style.css";
 import logo from "../../assets/logo192.jpg";
 import { connect } from "react-redux";
-import { store } from "../../models";
 import { User } from "../../constants/properties";
 import { useToasts } from "react-toast-notifications";
 import { useHistory } from "react-router-dom";
@@ -50,14 +49,14 @@ const Login = (props) => {
 
   const newRole = role === User.roles.user ? User.roles.admin : User.roles.user;
   const changeRole = () => {
-    store.dispatch.LoginInfo.updaterole(newRole);
+    dispatch.LoginInfo.updaterole(newRole);
   };
 
   const UserLogin = async (empId, empCode) => {
     try {
       let user = role === User.roles.user && await EmployeeLogin(empId, empCode) || role === User.roles.admin && await AdminLogin(empId, empCode);
       if (user?.data) {
-        store.dispatch.LoginInfo.updateinfo({
+        dispatch.LoginInfo.updateinfo({
           role,
           isLoggedIn: true,
           info: user.data,

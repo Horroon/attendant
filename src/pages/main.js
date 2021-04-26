@@ -9,7 +9,7 @@ import styles from './style.module.scss';
 import Login from './login/index';
 
 const MainScreen = (props) => {
-  const { LoginInfo } = props;
+  const { LoginInfo, dispatch } = props;
   const {role} = LoginInfo
   return (
     <div className={styles.mainbody}>
@@ -26,7 +26,7 @@ const MainScreen = (props) => {
             <RegisterPinCode />
           </Route>
           <Route exact path={MainPaths.login} >
-            <Login />
+            <Login dispatch={dispatch} />
           </Route>
         </Switch>
       </Router>
