@@ -123,6 +123,7 @@ const UserCard = (props) => {
           const isSameDay = moment(todaydate).isSame(moment(punchindate));
           if (isSameDay) {
             setState({ type: Properties.punchoutbtn, payload: true });
+            LeavebtnEnabler()
           } else {
             if (!lastattendance?.leave) {
               PunchOut(true);
